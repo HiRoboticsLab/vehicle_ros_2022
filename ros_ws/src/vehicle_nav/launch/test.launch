@@ -1,0 +1,8 @@
+<launch>
+
+    <param name="/use_sim_time" value="false"/>
+
+    <arg name="map" default="map.yaml" />
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find vehicle_nav)/map/$(arg map)" />
+    
+</launch>

@@ -1,0 +1,13 @@
+[Unit]
+Description=vehicle service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=jetbot
+ExecStart=/bin/bash /home/jetbot/Desktop/vehicle/ros_ws/vehicle.sh
+
+[Install]
+WantedBy=multi-user.target

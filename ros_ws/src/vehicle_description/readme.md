@@ -1,0 +1,1 @@
+xacro hirobot.urdf > out.urdf

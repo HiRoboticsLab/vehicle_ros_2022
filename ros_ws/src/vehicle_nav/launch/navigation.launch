@@ -1,0 +1,37 @@
+<launch>
+
+    <param name="/use_sim_time" value="false"/>
+
+    <!-- <arg name="map" default="map.yaml" />
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find vehicle_nav)/map/$(arg map)" /> -->
+
+    <node name="cartographer_node" pkg="cartographer_ros"
+        type="cartographer_node" args="
+            -configuration_directory $(find vehicle_nav)/config
+            -configuration_basename localization.lua
+            -load_state_filename $(find vehicle_nav)/map/map.pbstream"
+        output="screen">
+        <!-- <remap from="/scan" to="/scan_topic" /> -->
+    </node>
+
+    <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros"
+        type="cartographer_occupancy_grid_node" args="-resolution 0.05 -publish_period_sec 1.0" />
+    <!-- <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros"
+        type="cartographer_occupancy_grid_node" args="-resolution 0.05" /> -->
+
+    
+    <!-- # https://www.ncnynl.com/archives/201708/1903.html -->
+
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+        <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
+        <rosparam file="$(find vehicle_nav)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find vehicle_nav)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find vehicle_nav)/config/local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find vehicle_nav)/config/global_costmap_params.yaml" command="load" />
+        <rosparam file="$(find vehicle_nav)/config/dwa_local_planner_params.yaml" command="load" />
+        <rosparam file="$(find vehicle_nav)/config/move_base_params.yaml" command="load" />
+    </node>
+
+    <!-- cmd_vel -->
+    <node name="vehicle_move" pkg="vehicle" type="move.py"/>
+</launch>

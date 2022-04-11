@@ -1,0 +1,6 @@
+image: /home/jetbot/Desktop/vehicle/ros_ws/src/vehicle_nav/map/map.pgm
+resolution: 0.050000
+origin: [-2.185026, -9.999959, 0.0]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196
