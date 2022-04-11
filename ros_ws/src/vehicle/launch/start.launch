@@ -6,13 +6,14 @@
 
     <include file="$(find vehicle)/launch/laser.launch"/>
 
-    <!-- <include file="$(find vehicle)/launch/camera.launch"/> -->
+    <include file="$(find vehicle)/launch/camera.launch"/>
 
     <include file="$(find vehicle)/launch/motherboard.launch"/>
     <!-- <include ns="vehicle" file="$(find vehicle)/launch/motherboard.launch"/> -->
 
-    <node name="vehicle_service" pkg="vehicle" type="service.py" output="screen"/>
+    <!-- <node name="vehicle_service" pkg="vehicle" type="service.py" output="screen"/> -->
 
+    <!-- xacro robot.urdf > out.urdf -->
     <param name="robot_description" textfile="$(find vehicle_description)/urdf/out.urdf"/>
     <!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/> -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>

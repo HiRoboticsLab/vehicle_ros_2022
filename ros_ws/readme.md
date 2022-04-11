@@ -13,5 +13,5 @@ systemctl restart vehicle
 
 
 
-sudo usermod -a -G dialout jetbot
-sudo usermod -a -G tty jetbot
+<!-- sudo usermod -a -G dialout jetbot -->
+<!-- sudo usermod -a -G tty jetbot -->

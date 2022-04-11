@@ -1,39 +1,31 @@
 <launch>
-    <!-- Command Line Arguments -->
-    <arg name="sensor_id" default="0" />                       <!-- The sensor id of the camera -->
-    <arg name="cam_name" default="csi_cam_$(arg sensor_id)" /> <!-- The name of the camera (corrsponding to the camera info) -->
-    <arg name="frame_id" default="/$(arg cam_name)_link" />    <!-- The TF frame ID. -->
-    <arg name="sync_sink" default="true" />                    <!-- Synchronize the app sink. Setting this to false may resolve problems with sub-par framerates. -->
-    <arg name="width" default="640" />                        <!-- Image Width -->
-    <arg name="height" default="360" />                       <!-- Image Height -->
-    <arg name="fps" default="60" />                            <!-- Desired framerate. True framerate may not reach this if set too high. -->
-  
-    <!-- Make arguments available to parameter server -->
-    <param name="$(arg cam_name)/camera_id" type="int" value="$(arg sensor_id)" />
-    <param name="$(arg cam_name)/image_width" type="int" value="$(arg width)" />
-    <param name="$(arg cam_name)/image_height" type="int" value="$(arg height)" />
-    <param name="$(arg cam_name)/target_fps" type="int" value="$(arg fps)" />
-  
-    <!-- Define the GSCAM pipeline -->
-    <!-- <env name="GSCAM_CONFIG" value="nvcamerasrc sensor-id=$(arg sensor_id) ! video/x-raw(memory:NVMM),
-      width=(int)$(arg width), height=(int)$(arg height), format=(string)I420, framerate=(fraction)$(arg fps)/1 ! 
-      nvvidconv flip-method=2 ! video/x-raw, format=(string)BGRx ! videoconvert ! video/x-raw, format=(string)BGR" /> -->
+    <!-- VIDEO SOURCE -->
+	<arg name="input" default="csi://0"/>
+	<arg name="input_width" default="320"/>
+	<arg name="input_height" default="240"/>
+	<arg name="input_codec" default="unknown"/>
+	<arg name="input_loop" default="0"/>
 
-    <!-- <env name="GSCAM_CONFIG" value="nvarguscamerasrc sensor-id=$(arg sensor_id) ! video/x-raw(memory:NVMM),
-    width=(int)$(arg width), height=(int)$(arg height), format=(string)NV12, framerate=(fraction)$(arg fps)/1 ! 
-    nvvidconv flip-method=2 ! video/x-raw, format=(string)BGRx ! videoconvert ! video/x-raw, format=(string)BGR 
-    appsink name=sink"/> -->
+	<include file="$(find ros_deep_learning)/launch/video_source.ros1.launch">
+		<arg name="input" value="$(arg input)"/>
+		<arg name="input_width" value="$(arg input_width)"/>
+		<arg name="input_height" value="$(arg input_height)"/>
+		<arg name="input_codec" value="$(arg input_codec)"/>
+		<arg name="input_loop" value="$(arg input_loop)"/>
+	</include>
 
-    <env name="GSCAM_CONFIG" value="nvarguscamerasrc sensor-id=$(arg sensor_id) ! video/x-raw(memory:NVMM),
-    width=(int)$(arg width), height=(int)$(arg height), format=(string)NV12, framerate=(fraction)$(arg fps)/1 ! 
-    nvvidconv flip-method=2 ! video/x-raw, format=(string)BGRx ! videoconvert"/>
-  
-    <!-- Start the GSCAM node -->
-    <node pkg="gscam" type="gscam" name="$(arg cam_name)">
-      <param name="camera_name" value="$(arg cam_name)" />
-      <param name="frame_id" value="$(arg frame_id)" />
-      <param name="sync_sink" value="$(arg sync_sink)" />
-      <remap from="camera/image_raw" to="$(arg cam_name)/image_raw" />
-      <remap from="/set_camera_info" to="$(arg cam_name)/set_camera_info" />
-    </node>
-  </launch>
+	<!-- VIDEO OUTPUT -->
+	<arg name="output" default="display://0"/>
+	<arg name="output_codec" default="unknown"/>
+	<arg name="output_bitrate" default="0"/>
+
+	<include file="$(find ros_deep_learning)/launch/video_output.ros1.launch">
+		<arg name="topic" value="/video_source/raw"/>
+		<arg name="output" value="$(arg output)"/>
+		<arg name="output_codec" value="$(arg output_codec)"/>
+		<arg name="output_bitrate" value="$(arg output_bitrate)"/>
+	</include>
+
+    <!-- 数据压缩 -->
+    <node name="image_compress" pkg="image_transport" type="republish" args="raw in:=video_source/raw out:=video_source/compress" output="screen"/>
+</launch>

@@ -42,7 +42,7 @@ sudo lsof | grep ttyTHS1
 systemctl stop nvgetty
 systemctl disable nvgetty
 
-sudo cp /home/jetbot/Desktop/vehicle/20-myserial.rules /etc/udev/rules.d/20-myserial.rules
+sudo cp /home/jetbot/Desktop/vehicle/ros_ws/20-myserial.rules /etc/udev/rules.d/20-myserial.rules
 
 sudo udevadm control --reload
 ```
