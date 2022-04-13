@@ -26,9 +26,9 @@ sudo apt install ros-melodic-vision-msgs
 camera-capture csi://0 --input-width=640 --input-height=360
 
 # 选择Detection
-# 确定Path，并新建label.txt，每一行添加一个分类
+# 确定Path，并新建labels.txt，每一行添加一个分类
 
-# 我这里选择路径为"/home/jetbot/Desktop/vehicle/datasets/", label.txt同级
+# 我这里选择路径为"/home/jetbot/Desktop/vehicle/datasets/", labels.txt同级
 ```
 
 ## 训练模型
