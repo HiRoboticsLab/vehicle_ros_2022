@@ -52,6 +52,20 @@ tar -zxvf <model-archive-name>.tar.gz
 ## FAQ
 * 挂载swap内存
 https://github.com/dusty-nv/jetson-inference/blob/master/docs/pytorch-transfer-learning.md
+```shell
+# 设置交换内存
+sudo systemctl disable nvzramconfig
+sudo fallocate -l 4G /mnt/4GB.swap
+sudo mkswap /mnt/4GB.swap
+sudo swapon /mnt/4GB.swap
+# 向/etc/fstab追加内容
+/mnt/4GB.swap  none  swap  sw 0  0
+
+# 关闭交换内存，注释掉/etc/fstab追加内容即可
+
+# 彻底删除swap（不建议操作）
+# sudp rm -rf /var/swapfile
+```
 
 * module ‘PIL.Image ‘has no attribute ‘BILINEAR‘ (2022-4-12)
 ```shell
