@@ -11,4 +11,6 @@ sudo nmcli connection show
 sudo nmcli device status
 # 开启热点
 sudo nmcli dev wifi hotspot ssid 'SSID' password 'PASSWORD'
+# 设置开机自动连接，下方为自动连接热点
+sudo nmcli connection modify Hotspot autoconnect yes
 ```
