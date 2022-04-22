@@ -9,3 +9,10 @@ unzip -p ~/Img/jetson-nano-jp461-sd-card-image.zip | sudo dd of=/dev/rdisk4 bs=1
 
 # 备份镜像
 sudo dd if=/dev/rdisk4 conv=sync,noerror bs=1M status=progress | gzip -c > ./backup_jetson_2022.img.gz
+
+# 恢复镜像
+diskutil list disk4
+
+diskutil umount /dev/disk4s1
+
+gunzip -c ./backup_jetson_2022.img.gz | sudo dd of=/dev/rdisk4 bs=1m status=progress
