@@ -9,6 +9,7 @@ from light import Light
 from wheels import Wheel
 from esp import Esp
 from pid import PID
+from button import Button
 
 import subprocess
 
@@ -59,11 +60,13 @@ def read_serial():
                 ok, obj = is_json(data)
 
                 if ok:
-                    if 'ble' in obj:
-                        print("restart wxmp")
-                        cmd = "echo '{}' | sudo -S sudo systemctl restart wxmp".format(SYSTEM_PASSWORD)     \
+                    if 'button' in obj:
+                        # print("restart wxmp")
+                        # cmd = "echo '{}' | sudo -S sudo systemctl restart wxmp".format(SYSTEM_PASSWORD)     \
 
-                        subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)     \
+                        # subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)     \
+
+                        button.report(obj['button'])
 
                     else:
                         array_wheel = obj['wheel']
@@ -90,6 +93,7 @@ if __name__ == '__main__':
     wheel = Wheel(write_serial)
     esp = Esp(write_serial)
     pid = PID(write_serial)
+    button = Button()
 
     # 启动串口接收
     thread = threading.Thread(target=read_serial, args=())
