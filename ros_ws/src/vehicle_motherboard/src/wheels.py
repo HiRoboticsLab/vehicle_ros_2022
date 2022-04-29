@@ -49,7 +49,7 @@ class Wheel():
     wheel_diameter = 0.065
     wheel_laps_code = 341.2
 
-    tick2rad = (360 / (wheel_laps_code * 2)) * math.pi / 180
+    tick2rad = (360 / (wheel_laps_code)) * math.pi / 180
 
     def __init__(self, callback):
         self.listener_cmd_vel = rospy.Subscriber('cmd_vel', Twist, self.on_receive_msg, queue_size=10) \

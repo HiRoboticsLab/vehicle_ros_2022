@@ -22,15 +22,10 @@ git clone https://github.com/Slamtec/rplidar_ros
 sudo apt-get install python-pip
 pip install pyserial
 
-# 摄像头单独提出一个文件讲解，以下注释内容暂时不用
-# sudo apt-get install gstreamer1.0-tools libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-good1.0-dev
-# sudo apt install ros-melodic-image-common
-# git clone https://github.com/ros-drivers/gscam
-# https://www.waveshare.net/wiki/IMX219-160_Camera
-# 摄像头测试命令（需进入到桌面环境） DISPLAY=:0.0 nvgstcapture-1.0 --sensor-id=0
-
+# 安装依赖库
 sudo apt install ros-melodic-cartographer-ros
 sudo apt install ros-melodic-navigation
+sudo apt install ros-melodic-teb-local-planner
 
 # 测试命令
 roslaunch rosbridge_server rosbridge_websocket.launch

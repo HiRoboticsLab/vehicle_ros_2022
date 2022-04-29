@@ -10,7 +10,7 @@
     <xacro:property name="wheel_width" value="0.028"/>
     <xacro:property name="wheel_ygap" value="0.015"/>
     <xacro:property name="wheel_zoff" value="0.02"/>
-    <xacro:property name="wheel_xoff" value="0.10"/>
+    <xacro:property name="wheel_xoff" value="0.16"/>
 
     <link name="base_link">
         <visual>
