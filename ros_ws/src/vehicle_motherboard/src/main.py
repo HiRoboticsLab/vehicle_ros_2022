@@ -10,6 +10,7 @@ from wheels import Wheel
 from esp import Esp
 from pid import PID
 from button import Button
+from infrared import Infrared
 
 import subprocess
 
@@ -94,6 +95,7 @@ if __name__ == '__main__':
     esp = Esp(write_serial)
     pid = PID(write_serial)
     button = Button()
+    infrared = Infrared(write_serial)
 
     # 启动串口接收
     thread = threading.Thread(target=read_serial, args=())
