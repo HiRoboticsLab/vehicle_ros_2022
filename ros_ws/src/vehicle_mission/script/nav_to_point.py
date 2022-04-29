@@ -11,7 +11,7 @@ import math
 
 
 points = [[0.51, -1.06], [2.17, -1.08], [1.92, -1.88]]
-flag, last_theta= 0, 0
+flag, last_theta = 0, 0
 
 
 def buttonEvent(data):
@@ -25,9 +25,12 @@ def buttonEvent(data):
 def do_pub():
     global flag, last_theta
 
-    want_go_point = points[flag]
-
     over = len(points)
+
+    if(flag == over):
+        return
+
+    want_go_point = points[flag]
 
     # 如果不是最后一个点
     if flag != over - 1:
@@ -41,30 +44,6 @@ def do_pub():
     print("pub %s" % want_go_point)
 
     publish_goal(want_go_point[0], want_go_point[1], last_theta)
-
-
-    
-    # if flag == -1:
-    #     cur_nav = [0, 0]
-    # else:
-    #     cur_nav = points[flag]
-
-    # over = len(points)
-
-    # if flag != over:
-    #     next_nav = points[flag + 1]
-
-    #     delta_y = next_nav[1] - cur_nav[1]
-    #     delta_x = next_nav[0] - cur_nav[0]
-    #     theta = math.atan2(delta_y, delta_x)
-    
-    #     flag = flag + 1
-
-    #     print("pub %s" % next_nav)
-
-    #     publish_goal(next_nav[0], next_nav[1], theta)
-
-    
 
 
 def publish_goal(x=0, y=0, yaw=0):
