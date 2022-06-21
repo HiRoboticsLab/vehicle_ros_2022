@@ -318,7 +318,17 @@ void setup() {
 String cmd = "";
 DynamicJsonDocument doc(256);
 
+uint32_t the_last_cmd_vel = 0;
+
 void loop() {
+  // 自动停车
+  if (millis() - the_last_cmd_vel > 1000) {
+    wheel1.setSpeed(0);
+    wheel2.setSpeed(0);
+    wheel3.setSpeed(0);
+    wheel4.setSpeed(0);
+  }
+
   // 按键检测
   button.tick();
   // 灯光定时器
@@ -353,6 +363,8 @@ void loop() {
         wheel2.setSpeed(w2s);
         wheel3.setSpeed(w3s);
         wheel4.setSpeed(w4s);
+
+        the_last_cmd_vel = millis();
       }
 
       if (doc["to"] == "light") {
