@@ -30,8 +30,7 @@
         <rosparam file="$(find vehicle_nav)/config/global_costmap_params.yaml" command="load" />
         <rosparam file="$(find vehicle_nav)/config/dwa_local_planner_params.yaml" command="load" />
         <rosparam file="$(find vehicle_nav)/config/move_base_params.yaml" command="load" />
+        <remap from="/cmd_vel" to="/vehicle/cmd_vel"/>
     </node>
 
-    <!-- cmd_vel -->
-    <node name="vehicle_move" pkg="vehicle" type="move.py"/>
 </launch>

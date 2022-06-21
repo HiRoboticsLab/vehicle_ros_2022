@@ -51,7 +51,7 @@
   <joint name="wheel_1_joint" type="fixed">
     <parent link="base_link"/>
     <child link="wheel_1_link"/>
-    <origin rpy="0 0 0" xyz="0.1 0.14 -0.02"/>
+    <origin rpy="0 0 0" xyz="0.16 0.14 -0.02"/>
     <axis xyz="0 1 0"/>
   </joint>
   <link name="wheel_2_link">
@@ -68,7 +68,7 @@
   <joint name="wheel_2_joint" type="fixed">
     <parent link="base_link"/>
     <child link="wheel_2_link"/>
-    <origin rpy="0 0 0" xyz="0.1 -0.14 -0.02"/>
+    <origin rpy="0 0 0" xyz="0.16 -0.14 -0.02"/>
     <axis xyz="0 1 0"/>
   </joint>
   <link name="wheel_3_link">
@@ -85,7 +85,7 @@
   <joint name="wheel_3_joint" type="fixed">
     <parent link="base_link"/>
     <child link="wheel_3_link"/>
-    <origin rpy="0 0 0" xyz="-0.1 0.14 -0.02"/>
+    <origin rpy="0 0 0" xyz="-0.16 0.14 -0.02"/>
     <axis xyz="0 1 0"/>
   </joint>
   <link name="wheel_4_link">
@@ -102,7 +102,7 @@
   <joint name="wheel_4_joint" type="fixed">
     <parent link="base_link"/>
     <child link="wheel_4_link"/>
-    <origin rpy="0 0 0" xyz="-0.1 -0.14 -0.02"/>
+    <origin rpy="0 0 0" xyz="-0.16 -0.14 -0.02"/>
     <axis xyz="0 1 0"/>
   </joint>
 </robot>

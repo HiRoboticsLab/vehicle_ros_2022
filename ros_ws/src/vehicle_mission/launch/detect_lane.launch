@@ -1,5 +1,6 @@
 <launch>
 
+    <!-- rosrun rqt_reconfigure rqt_reconfigure -->
     <node name="vehicle_mission" pkg="vehicle_mission" type="detect_lane.py" output="screen">
         <param name="kernel" value="10"/>
         <param name="threshold_low" value="200"/>

@@ -1,11 +1,11 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
-#include <I2Cdev.h>
-#include <MPU6050_6Axis_MotionApps_V6_12.h>
+// #include <I2Cdev.h>
+// #include <MPU6050_6Axis_MotionApps_V6_12.h>
 #include <OneButton.h>
 #include <Ticker.h>
-#include <Wire.h>
-#include <stdint.h>
+// #include <Wire.h>
+// #include <stdint.h>
 
 #include "config.h"
 #include "wheel.h"
