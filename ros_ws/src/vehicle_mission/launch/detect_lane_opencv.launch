@@ -1,0 +1,18 @@
+<launch>
+
+    <!-- 也可以尝试opencv方式识别车道线，下方为提供的源码，并未做实际测试 -->
+
+    <!-- rosrun rqt_reconfigure rqt_reconfigure -->
+    <node name="vehicle_mission" pkg="vehicle_mission" type="detect_lane.py" output="screen">
+        <param name="kernel" value="15"/>
+        <param name="threshold_low" value="240"/>
+        <param name="threshold_high" value="255"/>
+        <param name="hl" value="0"/>
+        <param name="sl" value="0"/>
+        <param name="vl" value="0"/>
+        <param name="hh" value="50"/>
+        <param name="sh" value="40"/>
+        <param name="vh" value="150"/>
+    </node>
+
+</launch>

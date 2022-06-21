@@ -1,0 +1,7 @@
+<launch>
+
+    <include file="$(find vehicle_mission)/launch/ai.launch"/>
+
+    <node name="vehicle_mission" pkg="vehicle_mission" type="nav_lane.py" output="screen"/>
+
+</launch>
