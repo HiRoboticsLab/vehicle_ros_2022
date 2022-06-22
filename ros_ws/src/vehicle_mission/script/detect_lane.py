@@ -50,7 +50,6 @@ def detect_morph_gradient(image):
 
     return thresh
 
-
 def calc_yaw_angle(image):
     image[0: int(image.shape[0] / 4 * 3)] = 0
     try:

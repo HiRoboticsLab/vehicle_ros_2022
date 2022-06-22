@@ -42,9 +42,9 @@ def callback(data):
                 else:
                     speed_linear = 0.2
                     if angle < 0:
-                        speed_angular = 0.5
+                        speed_angular = 0.3
                     else:
-                        speed_angular = -0.5
+                        speed_angular = -0.3
 
                 msg = Twist()
 
@@ -52,7 +52,7 @@ def callback(data):
                     msg.linear.x = speed_linear
                     msg.angular.z = speed_angular
 
-                    if time.time() - start_ctrl_timestamp > 100:
+                    if time.time() - start_ctrl_timestamp > 30:
                         msg.linear.x = 0
                         msg.angular.z = 0
 
