@@ -15,13 +15,15 @@ import time
 
 # 红绿灯-0、第一段障碍-1、巡线-2、第三段障碍-3
 CHECK_POINT = 0
+# 灯光标志位
+ENABLE_LIGHT = False
 # 巡线控制频率
 ctrl_frequency = 10
 last_ctrl_timestamp = 0
 
 # 路径点
-points_first = [[0.58, 0.0], [1.40, 0.50], [0.15, 0.56]]
-points_last = [[-0.1, -0.1], [0, 0]]
+points_first = [[1.40, 0.50], [0.15, 0.56]]
+points_last = [[-1.0, -1.0]]
 
 # 巡线结束的坐标
 allow_position = [-1.45, 1.0]
@@ -106,7 +108,7 @@ def publish_goal(x=0, y=0, yaw=0):
 
 def callback_image(data):
     global ctrl_frequency, last_ctrl_timestamp, start_ctrl_timestamp
-    global CHECK_POINT
+    global CHECK_POINT, ENABLE_LIGHT
 
     for detection in data.detections:
         for result in detection.results:
@@ -117,6 +119,13 @@ def callback_image(data):
             # 摄像头巡线
             if result.id == 3:
                 if CHECK_POINT == 2:
+                    # 开灯
+                    if ENABLE_LIGHT == False:
+                        msg = String()
+                        msg.data = "on"
+                        pub_cmd_light.publish(msg)
+                        ENABLE_LIGHT = True
+
                     center_x = detection.bbox.center.x
                     center_y = detection.bbox.center.y
                     # rospy.loginfo('center x: %s y: %s', detection.bbox.center.x, detection.bbox.center.y)
@@ -154,7 +163,8 @@ def callback_image(data):
 
 
 def callback_tf(data):
-    global CHECK_POINT, allow_position, allow_threshold, nav_flag
+    global allow_position, allow_threshold, nav_flag
+    global CHECK_POINT, ENABLE_LIGHT
 
     for transform in data.transforms:
         if transform.child_frame_id == 'base_footprint':
@@ -163,6 +173,12 @@ def callback_tf(data):
                     (position.y > allow_position[1] - allow_threshold) and (position.y < allow_position[1] + allow_threshold):
                 # 如果巡线结束、则开始走最后一段
                 if CHECK_POINT == 2:
+                    # 关灯
+                    if ENABLE_LIGHT == True:
+                        msg = String()
+                        msg.data = "off"
+                        pub_cmd_light.publish(msg)
+                        ENABLE_LIGHT = False
                     CHECK_POINT = 3
                     nav_flag = 0
                     do_pub()
@@ -177,6 +193,7 @@ if __name__ == '__main__':
     rospy.Subscriber('/tf', TFMessage, callback_tf)
 
     pub_cmd_vel = rospy.Publisher('/vehicle/cmd_vel', Twist, queue_size=10)
+    pub_cmd_light = rospy.Publisher('/vehicle/cmd_light', String, queue_size=10)
 
     move_base = actionlib.SimpleActionClient('move_base', MoveBaseAction)
     move_base.wait_for_server()

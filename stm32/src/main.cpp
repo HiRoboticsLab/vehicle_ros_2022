@@ -396,6 +396,16 @@ void loop() {
             stateTurnLight = "off";
           }
         }
+        if (arg.equals("on")) {
+          resetTurnLight();
+          stateTurnLight = "on";
+          light(HIGH);
+        }
+        if (arg.equals("off")) {
+          resetTurnLight();
+          stateTurnLight = "off";
+          light(LOW);
+        }
       }
 
       if (doc["to"] == "pid") {

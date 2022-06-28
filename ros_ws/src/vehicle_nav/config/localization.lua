@@ -9,7 +9,7 @@ options = {
   published_frame = "base_footprint",
   odom_frame = "odom",
   provide_odom_frame = true,
-  publish_frame_projected_to_2d = false,
+  publish_frame_projected_to_2d = true,
   -- use_pose_extrapolator = true,
   use_odometry = false,
   use_nav_sat = false,
@@ -30,7 +30,7 @@ options = {
 }
 
 MAP_BUILDER.use_trajectory_builder_2d = true
-TRAJECTORY_BUILDER_2D.num_accumulated_range_data = 0.1
+TRAJECTORY_BUILDER_2D.num_accumulated_range_data = 1
 
 TRAJECTORY_BUILDER_2D.use_imu_data = false
 TRAJECTORY_BUILDER_2D.use_online_correlative_scan_matching = true 

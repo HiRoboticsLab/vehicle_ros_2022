@@ -11,8 +11,8 @@ Wheel::Wheel(uint32_t in1, uint32_t in2, uint32_t code1, uint32_t code2,
   this->dir_default = direction;
 
   // 解决电机引脚占用IIC被默认初始化问题，防止波形高度不够
-  pinMode(code1, INPUT_PULLDOWN);
-  pinMode(code2, INPUT_PULLDOWN);
+  pinMode(code1, INPUT);
+  pinMode(code2, INPUT);
 
   pinMode(in1, INPUT_PULLDOWN);
   pinMode(in2, INPUT_PULLDOWN);
