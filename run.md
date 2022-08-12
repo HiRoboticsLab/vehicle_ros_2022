@@ -43,3 +43,9 @@ python3 onnx_export.py --model-dir=/home/jetbot/Desktop/vehicle/datasets/model
 # gui环境下使用
 rosrun rqt_reconfigure rqt_reconfigure
 ```
+
+# 需要补充的库
+```
+sudo apt-get install ros-melodic-teb-local-planner
+pip install simple-pid
+```
