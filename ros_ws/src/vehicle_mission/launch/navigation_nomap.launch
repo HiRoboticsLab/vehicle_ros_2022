@@ -1,0 +1,35 @@
+<launch>
+
+    <param name="/use_sim_time" value="false"/>
+<!--
+    <node pkg="tf" type="static_transform_publisher" name="map_baselink" args="0 0 0 0 0 0 /map /base_footprint 100" />
+-->
+    <node pkg="slam_toolbox" type="async_slam_toolbox_node" name="slam_toolbox" output="screen">
+        <rosparam command="load" file="$(find vehicle_mission)/config/config_slam.yaml" />
+    </node>
+
+    <!-- # https://www.ncnynl.com/archives/201708/1903.html -->
+
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+        <rosparam file="$(find vehicle_mission)/config/teb/costmap_common_params.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find vehicle_mission)/config/teb/costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find vehicle_mission)/config/teb/local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find vehicle_mission)/config/teb/global_costmap_params.yaml" command="load" />
+        <rosparam file="$(find vehicle_mission)/config/teb/teb_local_planner_params.yaml" command="load" />
+        <!-- <rosparam file="$(find vehicle_mission)/config/move_base_params.yaml" command="load" /> -->
+
+		<param name="base_global_planner" value="global_planner/GlobalPlanner" />
+		<param name="planner_frequency" value="1.0" />
+		<param name="planner_patience" value="5.0" />
+
+		<param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+		<param name="controller_frequency" value="5.0" />
+		<param name="controller_patience" value="15.0" />
+
+        <!-- <remap from="/cmd_vel" to="/vehicle/cmd_vel_mission"/> -->
+        <remap from="/cmd_vel" to="/vehicle/cmd_vel"/>
+    </node>
+
+    <node name="vehicle_mission" pkg="vehicle_mission" type="nav_to_point.py" output="screen"/>
+
+</launch>
