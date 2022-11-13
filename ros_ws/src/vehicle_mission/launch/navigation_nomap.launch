@@ -1,15 +1,24 @@
 <launch>
 
     <param name="/use_sim_time" value="false"/>
-<!--
-    <node pkg="tf" type="static_transform_publisher" name="map_baselink" args="0 0 0 0 0 0 /map /base_footprint 100" />
--->
+
+    <node pkg="rf2o_laser_odometry" type="rf2o_laser_odometry_node" name="rf2o_laser_odometry" output="screen">
+        <param name="laser_scan_topic" value="/scan"/>              # topic where the lidar scans are being published
+        <param name="odom_topic" value="/odom" />                   # topic where tu publish the odometry estimations
+        <param name="publish_tf" value="true" />                    # wheter or not to publish the tf::transform (base->odom)
+        <param name="base_frame_id" value="/base_footprint"/>       # frame_id (tf) of the mobile robot base. A tf transform from the laser_frame to the base_frame is mandatory
+        <param name="odom_frame_id" value="/odom" />                # frame_id (tf) to publish the odometry estimations    
+        <param name="init_pose_from_topic" value="" />              # (Odom topic) Leave empty to start at point (0,0)
+        <param name="freq" value="5.0"/>                            # Execution frequency.
+        <param name="verbose" value="false" />                       # verbose
+    </node>
+
     <node pkg="slam_toolbox" type="async_slam_toolbox_node" name="slam_toolbox" output="screen">
         <rosparam command="load" file="$(find vehicle_mission)/config/config_slam.yaml" />
     </node>
 
     <!-- # https://www.ncnynl.com/archives/201708/1903.html -->
-
+    
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
         <rosparam file="$(find vehicle_mission)/config/teb/costmap_common_params.yaml" command="load" ns="global_costmap" />
         <rosparam file="$(find vehicle_mission)/config/teb/costmap_common_params.yaml" command="load" ns="local_costmap" />
@@ -26,10 +35,11 @@
 		<param name="controller_frequency" value="5.0" />
 		<param name="controller_patience" value="15.0" />
 
-        <!-- <remap from="/cmd_vel" to="/vehicle/cmd_vel_mission"/> -->
         <remap from="/cmd_vel" to="/vehicle/cmd_vel"/>
     </node>
 
     <node name="vehicle_mission" pkg="vehicle_mission" type="nav_to_point.py" output="screen"/>
+    <!-- <node name="vehicle_mission" pkg="vehicle_mission" type="mission.py" output="screen"/> -->
 
+    
 </launch>
