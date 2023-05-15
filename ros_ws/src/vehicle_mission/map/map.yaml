@@ -1,0 +1,8 @@
+image: map.png
+resolution: 0.01
+origin: [0.0, 0.0, 0.0]
+negate: 0
+# 占用概率大于此阈值的像素被视为完全占用。
+occupied_thresh: 0.7
+# 占用概率小于此阈值的像素被认为是完全空闲的。
+free_thresh: 0.2

@@ -1,0 +1,61 @@
+# http://wiki.ros.org/amcl
+
+use_map_topic: true
+
+odom_frame_id: "odom"
+base_frame_id: "base_link"
+global_frame_id: "map"
+
+## Publish scans from best pose at a max of 10 Hz
+# 使用哪个模型，“diff”、“omni”、“diff-corrected”或“omni-corrected”。
+odom_model_type: "diff"
+gui_publish_rate: 10.0
+laser_max_beams: 90
+laser_max_range: 12.0
+min_particles: 2000
+max_particles: 5000
+# 真实分布与估计分布之间的最大误差
+kld_err: 0.05
+# save_pose_rate: 0.25
+# first_map_only: true
+# (1 - p) 的上标准正态分位数，其中 p 是估计分布误差小于 kld_err 的概率。
+kld_z: 0.99
+# 预期噪声
+odom_alpha1: 0.05
+odom_alpha2: 0.05
+## translation std dev, m 
+odom_alpha3: 0.05
+odom_alpha4: 0.05
+# 仅在模型为“omni”时使用
+odom_alpha5: 0.01
+# 模型的z_hit部分的混合权重
+laser_z_hit: 1.0 # default: 0.95 #0.5
+# 模型的z_short部分的混合权重
+laser_z_short: 0.05 # default: 0.1
+# 模型的z_max部分的混合权重
+laser_z_max: 0.05 # default: 0.05
+# 模型的z_rand部分的混合权重
+laser_z_rand: 0.05 # default: 0.05
+# 模型的z_hit部分中使用的高斯模型的标准偏差
+laser_sigma_hit: 0.05 # default: 0.2
+# 模型的z_short部分的指数衰减参数
+laser_lambda_short: 0.1
+# 使用哪个模型，beam、likelihood_field 或 likelihood_field_prob
+# （与 likelihood_field 相同，但包含 beamskip 功能，如果启用）
+laser_model_type: "likelihood_field" # "likelihood_field" or "beam"
+# 在地图上进行障碍物膨胀的最大距离，用于 likelihood_field 模型。
+laser_likelihood_max_dist: 0.15 # default: 2.0
+# 执行过滤器更新之前需要进行平移运动
+update_min_d: 0.10
+# 在执行过滤器更新之前需要进行旋转运动。
+update_min_a: 0.17
+# 重采样前所需的过滤器更新次数
+resample_interval: 2 # default: 2
+
+## 增加容忍度，因为计算机会变得很忙
+# 将已发布的转换推迟日期的时间，以指示此转换在未来有效
+transform_tolerance: 0.5
+# 慢速平均权重过滤器的指数衰减率，用于决定何时通过添加随机姿势来恢复。一个好的值可能是 0.001
+recovery_alpha_slow: 0.001
+# 快速平均权重滤波器的指数衰减率，用于决定何时通过添加随机姿势来恢复。一个好的值可能是 0.1
+recovery_alpha_fast: 0.1

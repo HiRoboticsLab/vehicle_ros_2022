@@ -1,0 +1,56 @@
+<launch>
+
+    <param name="/use_sim_time" value="false"/>
+
+    <!-- 雷达转里程计，发tf -->
+    <node pkg="rf2o_laser_odometry" type="rf2o_laser_odometry_node" name="rf2o_laser_odometry" output="screen">
+        <param name="laser_scan_topic" value="/scan"/>              # topic where the lidar scans are being published
+        <param name="odom_topic" value="/odom" />                   # topic where tu publish the odometry estimations
+        <param name="publish_tf" value="true" />                    # wheter or not to publish the tf::transform (base->odom)
+        <param name="base_frame_id" value="/base_footprint"/>       # frame_id (tf) of the mobile robot base. A tf transform from the laser_frame to the base_frame is mandatory
+        <param name="odom_frame_id" value="/odom" />                # frame_id (tf) to publish the odometry estimations    
+        <param name="init_pose_from_topic" value="" />              # (Odom topic) Leave empty to start at point (0,0)
+        <param name="freq" value="5.0"/>                            # Execution frequency.
+        <param name="verbose" value="false" />                       # verbose
+    </node>
+
+
+    <!-- Map -->
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find vehicle_mission)/map/map.yaml" output="screen">
+        <param name="frame_id" value="map"/>
+	</node>
+
+    <!-- AMCL定位 -->
+    <node pkg="amcl" type="amcl" name="amcl" output="screen">
+		<rosparam file="$(find vehicle_mission)/config/amcl_params.yaml" command="load" />
+        <param name="initial_pose_x"            value="0.1"/>
+		<param name="initial_pose_y"            value="0.1"/>
+		<param name="initial_pose_a"            value="0"/>
+	</node>
+
+    <!-- # https://www.ncnynl.com/archives/201708/1903.html -->
+    
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+        <rosparam file="$(find vehicle_mission)/config/teb/costmap_common_params.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find vehicle_mission)/config/teb/costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find vehicle_mission)/config/teb/local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find vehicle_mission)/config/teb/global_costmap_params.yaml" command="load" />
+        <rosparam file="$(find vehicle_mission)/config/teb/teb_local_planner_params.yaml" command="load" />
+        <!-- <rosparam file="$(find vehicle_mission)/config/move_base_params.yaml" command="load" /> -->
+
+		<param name="base_global_planner" value="global_planner/GlobalPlanner" />
+		<param name="planner_frequency" value="1.0" />
+		<param name="planner_patience" value="5.0" />
+
+		<param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+		<param name="controller_frequency" value="5.0" />
+		<param name="controller_patience" value="15.0" />
+
+        <remap from="/cmd_vel" to="/vehicle/cmd_vel"/>
+    </node>
+
+    <!-- <node name="vehicle_mission" pkg="vehicle_mission" type="nav_to_point.py" output="screen"/> -->
+    <!-- <node name="vehicle_mission" pkg="vehicle_mission" type="mission.py" output="screen"/> -->
+
+    
+</launch>
