@@ -6,7 +6,7 @@ TebLocalPlannerROS:
   # 优化期间允许改变轨迹的时域长度
   teb_autosize: True
   # 局部路径规划的解析度
-  dt_ref: 0.3
+  dt_ref: 0.2
   # 允许改变的时域解析度的浮动范围，一般为 dt_ref 的 10% 左右;
   dt_hysteresis: 0.1
   # 最大样本数
@@ -38,9 +38,9 @@ TebLocalPlannerROS:
   # 最大y方向速度
   max_vel_y: 0.0
   # 最大转向角速度
-  max_vel_theta: 0.5
+  max_vel_theta: 1.0
   # 最大x加速度
-  acc_lim_x: 0.5
+  acc_lim_x: 0.1
   # 最大角加速度
   acc_lim_theta: 0.5
   # 车类机器人的最小转弯半径
@@ -62,7 +62,7 @@ TebLocalPlannerROS:
   # 和障碍物最小距离
   min_obstacle_dist: 0.2 # This value must also include our robot radius, since footprint_model is set to "point".
   # 障碍物膨胀距离
-  inflation_dist: 0.6
+  inflation_dist: 0.2
   # costmap中的障碍物是否被直接考虑
   include_costmap_obstacles: True
   # 规划时考虑后面n米内的障碍物
@@ -71,7 +71,7 @@ TebLocalPlannerROS:
   obstacle_poses_affected: 15
 
   # 动态障碍物的膨胀范围
-  dynamic_obstacle_inflation_dist: 0.6
+  dynamic_obstacle_inflation_dist: 0.5
   # 是否将动态障碍物预测为速度模型
   include_dynamic_obstacles: True
 
@@ -105,7 +105,7 @@ TebLocalPlannerROS:
   # 优化权重，以实现最小转弯半径（仅适用于汽车类机器人）。
   weight_kinematics_turning_radius: 1
   # 胆子 根据转换/执行时间对轨迹进行收缩的优化权重
-  weight_optimaltime: 30 # must be > 0
+  weight_optimaltime: 10 # must be > 0
   weight_shortest_path: 0
   # 优化权重以保持与障碍物的最小距离
   weight_obstacle: 100
